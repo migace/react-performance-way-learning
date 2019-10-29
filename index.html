@@ -25,8 +25,175 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h2>React performance</h2>
+					<small>case study</small>
+				</section>
+				<section>
+					<h4>Performance, when and why ?</h4>
+				</section>				
+				<section>
+					<section>
+						<h4>shouldComponentUpdate()</h4>
+					</section>
+					<section>
+						<p>
+							In most cases, instead of writing shouldComponentUpdate() by hand, you can inherit from React.PureComponent. It is equivalent to implementing shouldComponentUpdate() with a shallow comparison of current and previous props and state.
+						</p>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```
+								shouldComponentUpdate(nextProps, nextState) {
+									if (this.props.color !== nextProps.color) {
+										return true;
+									}
+									if (this.state.count !== nextState.count) {
+										return true;
+									}
+									return false;
+								}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```
+								class CounterButton extends React.PureComponent {}
+							```
+						</script>
+					</section>
+					<section>
+						<h4>But sometimes... it doesn't work</h4>
+					</section>
+				</section>	
+				<section>
+					<h4>React.Fragment</h4>
+				</section>
+				<section>
+					<section>
+						<h4>Avoid Inline Function Definition in the Render Function.</h4>
+					</section>
+					<section>
+						<img src="images/show-me.png" alt="Show me example" />
+					</section>
+				</section>
+				<section>
+					<h4>Throttling, Debouncing</h4>
+				</section>
+				<section>
+					<section>
+						<h4>Windowing</h4>
+					</section>
+					<section>
+						<p>
+							<span style="color: red">react-window</span> and <span style="color: red">react-virtualized</span> are popular windowing libraries. They provide several reusable components for displaying lists, grids, and tabular data.
+						</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h4>Reconciliation</h4>
+					</section>
+					<section style="background: #fff">
+						<img src="images/reconcilation.png" alt="VirtualDOM" />
+					</section>
+					<section>
+						<h4>Avoid using index as key for map</h4>
+						<small>
+							<a href="https://jsbin.com/wohima/edit?js,output">Example</a>
+						</small>
+					</section>
+					<section>
+							<h4>Memoization</h4>
+							<p>
+									Memoization is an optimization technique that speeds up applications by storing the results of expensive function calls and returning the cached result when the same inputs are supplied again.
+							</p>
+						</section>
+						<section>
+							<h4>When ?</h4>
+						</section>
+						<section data-markdown>
+							<script type="text/template">
+								```
+									const UserDetails = ({ user }) => {
+										const {title, full_name, profile_img} = user;
+								
+										return (
+												<div className="user-detail-wrapper">
+														<img src={profile_img} />
+														<h4>{full_name}</h4>
+														<p>{title}</p>
+												</div>
+										)
+									}
+								```
+							</script>
+						</section>						
+					</section>
+				</section>
+				<section>
+					<section>
+						<h4>Lifting state up</h4>
+					</section>
+					<section>
+						<div>
+							<img src="/images/house.jpeg" alt="House" />
+						</div>
+						<small>
+							<a href="https://reactjs.org/docs/lifting-state-up.html">Lifting up - official documentation</a>
+						</small>
+					</section>
+					<section>
+						<section data-markdown>
+							<script type="text/template">
+								```
+									class Calculator extends React.Component {
+										render() {
+											return (
+												<div>
+													<TemperatureInput scale="c" />
+													<TemperatureInput scale="f" />
+												</div>
+											);
+										}
+									}
+								```
+							</script>
+						</section>
+					</section>
+					<section>
+						<h5>How it looks ?</h5>
+						<section data-markdown>
+							<script type="text/template">
+								```
+									const scaleNames = {
+										c: 'Celsius',
+										f: 'Fahrenheit'
+									};
+									
+									class TemperatureInput extends React.Component {
+										...
+										render() {
+											return (
+												<fieldset>
+													<legend>Enter temperature in {scaleNames[scale]}:</legend>
+													<input value={temperature} onChange={this.handleChange} />
+												</fieldset>
+											);
+										}
+									}
+								```
+							</script>
+						</section>
+						<small>
+							<a href="https://codepen.io/gaearon/pen/WZpxpz?editors=0010">Try it</a>
+						</small>
+					</section>					
+				</section>
+				<section>
+					<img src="images/we-can.jpg" alt="Yes, we can" />
+				</section>							
 			</div>
 		</div>
 
